@@ -25,9 +25,6 @@ func IsAfternoonAppointment(date string) bool {
 	if myDate.Hour() >= 12 && myDate.Hour() < 18 {
 		return true
 	}
-	if myDate.Hour() == 18 && myDate.Minute() == 00 {
-		return true
-	}
 	return false
 	panic("Please implement the IsAfternoonAppointment function")
 }
