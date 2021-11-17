@@ -9,7 +9,7 @@ func parseDate(layout, date string) time.Time {
     parsedDate, err := time.Parse(layout, date)
 
     if err != nil {
-        fmt.Println("Oops:", err)
+	panic("The suplied date is not parseable")
     }
 
     return parsedDate
