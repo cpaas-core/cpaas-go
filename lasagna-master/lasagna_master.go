@@ -6,8 +6,7 @@ func PreparationTime(layers []string, prepTimePerLayer int) int {
   if prepTimePerLayer < 1 {
     prepTimePerLayer = 2
   }
-  prepTime := prepTimePerLayer * len(layers)
-  return prepTime
+  return prepTimePerLayer * len(layers)
 }
 
 // Quantities determines the quantity of noodles and sauce needed to make
@@ -16,10 +15,10 @@ func PreparationTime(layers []string, prepTimePerLayer int) int {
 func Quantities(layers []string) (int, float64) {
   var qtyNoodles int = 0
   var qtySauce float64 = 0.0
-  for i:=0; i<len(layers); i++ {
-    if layers[i] == "noodles" {
+  for _, layer := range layers {
+    if layer == "noodles" {
       qtyNoodles = qtyNoodles + 50
-    } else if layers[i] == "sauce" {
+    } else if layer == "sauce" {
       qtySauce = qtySauce + 0.2
     }
   }
@@ -32,8 +31,7 @@ func AddSecretIngredient(friendsList, myList []string) []string {
   newList := make([]string, len(myList))
   copy(newList, myList)
   if len(friendsList) > 0 {
-    secretIngredient := friendsList[len(friendsList)-1]
-    newList = append(newList, secretIngredient)
+    newList = append(newList, friendsList[len(friendsList)-1])
   }
   return newList
 }
@@ -41,9 +39,9 @@ func AddSecretIngredient(friendsList, myList []string) []string {
 // ScaleRecipe calculates the amounts for different numbers of portions.
 func ScaleRecipe(amounts []float64, portions int) []float64 {
   var scalePortion float64 = float64(portions) / 2.0
-  newAmounts := make([]float64, len(amounts))
-  for i:=0; i<len(amounts); i++ {
-    newAmounts[i] = amounts[i] * scalePortion
+  newAmounts := make([]float64, 0)
+  for _, amount := range amounts {
+    newAmounts = append(newAmounts, amount * scalePortion)
   }
   return newAmounts
 }
