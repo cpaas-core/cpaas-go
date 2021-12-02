@@ -28,12 +28,11 @@ func Quantities(layers []string) (int, float64) {
 // AddSecretIngredient generates a new slice and adds the last item from
 // your friend's list to the end of your list.
 func AddSecretIngredient(friendsList, myList []string) []string {
-	newList := make([]string, len(myList))
-	copy(newList, myList)
 	if len(friendsList) > 0 {
-		newList = append(newList, friendsList[len(friendsList)-1])
+		return append(myList, friendsList[len(friendsList)-1])
+	} else {
+		return myList
 	}
-	return newList
 }
 
 // ScaleRecipe calculates the amounts for different numbers of portions.
