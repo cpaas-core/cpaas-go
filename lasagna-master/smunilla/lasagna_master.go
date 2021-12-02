@@ -12,15 +12,14 @@ func Quantities(layers []string) (int, float64) {
 	const noodleGrams = 50
 	const sauceLiters = 0.2
 
-	var noodlesLayers = 0
-	var sauceLayers = 0.0
+	noodlesLayers := 0
+	sauceLayers := 0.0
 
-	for _, v := range layers {
-		if v == "noodles" {
+	for _, layer := range layers {
+		switch layer {
+		case "noodles":
 			noodlesLayers++
-		}
-
-		if v == "sauce" {
+		case "sauce":
 			sauceLayers++
 		}
 	}
