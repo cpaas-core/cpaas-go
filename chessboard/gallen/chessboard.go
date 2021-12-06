@@ -1,8 +1,8 @@
 package chessboard
 
-const RankSize = 8
+const rankSize = 8
 
-type Rank [RankSize]bool
+type Rank [rankSize]bool
 
 type Chessboard map[string]Rank
 
@@ -16,30 +16,25 @@ func CountInRank(cb Chessboard, rank string) (count int) {
 }
 
 func CountInFile(cb Chessboard, file int) (count int) {
-    if (file <= RankSize) {
-        for _, rank := range cb {
-            if (rank[file-1]) {
-                count++
-            }
+    if (file < 0 || file > rankSize) {
+       return 0
+    }
+
+    for _, rank := range cb {
+        if (rank[file-1]) {
+            count++
         }
     }
     return
 }
 
 func CountAll(cb Chessboard) int {
-    for _, rank := range cb {
-        return len(cb) * len(rank)
-    }
-    return 0
+    return len(cb) * rankSize
 }
 
 func CountOccupied(cb Chessboard) (count int) {
-    for _, rank := range cb {
-        for _, occupied := range rank {
-            if (occupied) {
-                count++
-            }
-	}
+    for rank, _ := range cb {
+        count += CountInRank(cb, rank)
     }
     return
 }
