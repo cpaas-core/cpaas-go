@@ -10,9 +10,9 @@ type Chessboard map[string]Rank
 // within the given rank
 func CountInRank(cb Chessboard, rank string) (count int) {
 	_, exists := cb[rank]
-	if exists == true {
+	if exists {
 		for _, square := range cb[rank] {
-			if square == true {
+			if square {
 				count += 1
 			}
 		}
@@ -27,7 +27,7 @@ func CountInRank(cb Chessboard, rank string) (count int) {
 func CountInFile(cb Chessboard, file int) (count int) {
 	if file >= 1 && file <= 8 {
 		for _, rank := range cb {
-			if rank[file-1] == true {
+			if rank[file-1] {
 				count += 1
 			}
 		}
