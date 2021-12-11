@@ -14,11 +14,10 @@ func Quantities(layers []string) (int,float64) {
 	var noodles, sauces int
 	var sauce float64
 
-	for _,v := range layers{
-		if v == "noodles" {
-			noodles++
-		} else if v == "sauce" {
-			sauces++ 
+	for _,layer := range layers{
+		switch layer {
+			case "noodles" : noodles++
+			case "sauce" : sauces++ 
 		}
 	}
 	noodles = noodles*50
@@ -27,17 +26,16 @@ func Quantities(layers []string) (int,float64) {
 }
 
 func AddSecretIngredient(friendsList []string, myList []string) []string {
-	var res []string = myList[:]
-	res = append(res, friendsList[len(friendsList)-1])
-	return res
+	myList = append(myList, friendsList[len(friendsList)-1])
+	return myList
 }
 
 
 func ScaleRecipe(amounts []float64, portions int) []float64 {
 	res := make([]float64,0,len(amounts))
+	scaleFactor := float64(portions) 
 	for _,v  := range amounts{
-		res = append(res, v/2*float64(portions))
+		res = append(res, v/2*scaleFactor)
 	}
 	return res
 }
-
