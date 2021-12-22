@@ -1,8 +1,6 @@
-package main
+package robotname
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Robot struct {
 	Id string
@@ -11,10 +9,10 @@ type Robot struct {
 var availableRobotNames = func() map[string]struct{} {
 	names := make(map[string]struct{})
 
-	for r := 'A'; r <= 'Z'; r++ {
-		for m := 'A'; m <= 'Z'; m++ {
+	for firstLetter := 'A'; firstLetter <= 'Z'; firstLetter++ {
+		for secondLetter := 'A'; secondLetter <= 'Z'; secondLetter++ {
 			for number := 0; number < 1000; number++ {
-				robotName := fmt.Sprintf("%c%c%03d", r, m, number)
+				robotName := fmt.Sprintf("%c%c%03d", firstLetter, secondLetter, number)
 				names[robotName] = struct{}{}
 			}
 		}
