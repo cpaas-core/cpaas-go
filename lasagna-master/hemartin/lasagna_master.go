@@ -39,14 +39,11 @@ func QuantitiesFast(layers []string) (int, float64) {
 	sauce := 0.0
 
 	for _, layer := range layers {
-		if layer == "noodles" {
+		switch layer {
+		case "noodles":
 			noodles += noodleQuantityPerLayer
-			continue
-		}
-
-		if layer == "sauce" {
+		case "sauce":
 			sauce += sauceQuantityPerLayer
-			continue
 		}
 	}
 
