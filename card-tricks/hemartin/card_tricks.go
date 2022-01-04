@@ -3,11 +3,7 @@ package cards
 // GetItem retrieves an item from a slice at given position. The second return value indicates whether
 // the given index exists in the slice or not.
 func GetItem(slice []int, index int) (int, bool) {
-	if index < 0 || len(slice) == 0 {
-		return 0, false
-	}
-
-	if index > len(slice)-1 {
+	if index < 0 || len(slice) == 0 || index >= len(slice) {
 		return 0, false
 	}
 
@@ -32,12 +28,9 @@ func PrefilledSlice(value, length int) []int {
 		return []int{}
 	}
 
-	n := 0
 	slice := []int{}
-
-	for n < length {
+	for n := 0; n < length; n++ {
 		slice = append(slice, value)
-		n++
 	}
 
 	return slice
@@ -46,10 +39,7 @@ func PrefilledSlice(value, length int) []int {
 // RemoveItem removes an item from a slice by modifying the existing slice.
 func RemoveItem(slice []int, index int) []int {
 	if _, ok := GetItem(slice, index); ok {
-		new := []int{}
-		new = append(new, slice[:index]...)
-		new = append(new, slice[index+1:]...)
-		return new
+		slice = append(slice[:index], slice[index+1:]...)
 	}
 	return slice
 }
