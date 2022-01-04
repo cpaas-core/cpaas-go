@@ -10,8 +10,8 @@ type Chessboard map[string]Rank
 // within the given rank
 func CountInRank(cb Chessboard, rank string) int {
 	occupied := 0
-	for _, v := range cb[rank] {
-		if v {
+	for _, position := range cb[rank] {
+		if position {
 			occupied += 1
 		}
 	}
