@@ -35,6 +35,6 @@ func (r *Robot) Reset() {
 	r.name = ""
 }
 func getName() string {
-	return fmt.Sprintf("%v%v%v%v%v", string(rand.Int31n(26)+66), string(rand.Int31n(26)+66), rand.Int31n(10), rand.Int31n(10), rand.Int31n(10))
+	return fmt.Sprintf("%s%s%d", string(rand.Intn(26)+66), string(rand.Intn(26)+66), rand.Intn(1000))
 
 }
