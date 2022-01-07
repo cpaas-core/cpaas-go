@@ -19,7 +19,7 @@ func (r *Robot) Name() (string, error) {
 		return r.name, nil
 	}
 	if len(nameUsed) >= max {
-		return "", fmt.Errorf("No Names left")
+		return "", fmt.Errorf("no names left")
 	}
 	for {
 		name := getName()
