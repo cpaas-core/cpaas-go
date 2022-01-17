@@ -1,20 +1,20 @@
 # Blue Hat
 
-Welcome to Blue Hat, an exercises created by the CPaaS team.
+Welcome to Blue Hat, an exercise created by the CPaaS team.
 
 ## Instructions
 
 Oh man, the marketing team has gone totally crazy again.
 
-First they got rid of Shadowman, and now they want to change the primary color from red to blue!
+First, they got rid of Shadowman. And now they want to change the primary color from red to blue!
 
 You have been tasked to automate the process of creating new custom stickers to promote the new brand.
 
 What's a custom sticker?
 
 A custom sticker is nothing else than a 400x400 image of our wonderful ~~red~~ blue hat with the name of the Blue Hat
-employee than bought it. Unfortunately, the designers haven't come up with the new logo, so you will have to begin
-recoloring our old logo.
+employee than bought it. Unfortunately, the designers haven't come up with the new logo yet, so you will have to begin
+recoloring the old one.
 
 ## Recoloring the logo
 
@@ -43,7 +43,7 @@ c 00000000000111010001100001000101110
 ...
 ```
 
-Each line contains an ascii character and its representation in a 5x7 panel. Here's how each line is structured:
+Each line is componsed by an ascii character and its representation in a 5x7 panel. Here's how each line is structured:
 
 ```
 ASCII WHITESPACE ENCODING
@@ -62,7 +62,7 @@ first row in the example above would generate the following panel:
 10001
 ```
 
-Once translated the information into pixels within the image, you would get this:
+Once the information is translated into pixels within the image, you should get this:
 
 ```
  xxx 
@@ -76,7 +76,7 @@ x   x
 
 ### Generating the name
 
-Now that the file is parsed, you should write a function to transform a given username (max 8 characters long), into a
+Now that the file is parsed, you have to write a function to transform a given username (max 8 characters long), into a
 banner with all letters' representation separated by a space (empty column):
 
 ```
@@ -91,11 +91,11 @@ X   X X   X X X X X   X X     X     X   X X   X
 
 ### Scaling and drawing
 
-The banner as it is, would be too small to draw in our 400x400 image, so each point in the banner should be scaled by 6.
-One way to do this is drawing a 6x6 rectangle in the image per point in the banner. You can take a look into
+The banner as it is would be too small to draw in our 400x400 image, so each point in the banner should be scaled by 6.
+One way to do this is by drawing a 6x6 square in the image per point in the banner. You can take a look into [Rect](https://pkg.go.dev/image#Rect) and 
 [image/draw](https://pkg.go.dev/image/draw) to do this.
 
-With all done, the goal is to add the name, centered, into the Blue Hat logo image you generated above. The expected
+The only thing left to be done is to draw the name, centered, into the Blue Hat logo image you generated before. The expected
 result should be similar to this:
 
 ![blue_hat_name](blue_hat_name.png)
