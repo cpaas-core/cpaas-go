@@ -76,7 +76,7 @@ x   x
 
 ### Generating the name
 
-Now that the file is parsed, you have to write a function to transform a given username (max 8 characters long), into a
+Now that the file is parsed, you have to write a function to transform a given username (max 11 characters long), into a
 banner with all letters' representation separated by a space (empty column):
 
 ```
