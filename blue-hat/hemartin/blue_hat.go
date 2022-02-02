@@ -26,11 +26,6 @@ const rectHeight = charPixelHeight * charScaleFactor
 
 var rectWidth = (len(name) * charPixelWidth * charScaleFactor) + (len(name) * charSpacing * charScaleFactor)
 
-type ColoredPixel struct {
-	point image.Point
-	color color.Color
-}
-
 func main() {
 	imgReader, err := os.Open(originalImageFilename)
 	if err != nil {
