@@ -3,10 +3,28 @@ package main
 import (
 	"image"
 	"image/color"
+	"image/draw"
 	"image/png"
 	"log"
 	"os"
 )
+
+const bannerScale = 6
+
+func drawBanner(banner *Banner, img *image.RGBA, scale, startX, startY int) {
+	for i := 0; i < banner.Height; i++ {
+		for j := 0; j < banner.Width; j++ {
+			if banner.Data[i][j] {
+				drawSquare(img, scale, startX+j*scale, startY+i*scale)
+			}
+		}
+	}
+}
+
+func drawSquare(img *image.RGBA, scale, startX, startY int) {
+	rect := image.Rect(startX, startY, startX+scale, startY+scale)
+	draw.Draw(img, rect, &image.Uniform{C: color.Black}, image.Point{}, draw.Src)
+}
 
 // loadImage loads and returns an image from the given path.
 func loadImage(path string) (image.Image, error) {
@@ -57,12 +75,31 @@ func saveImage(path string, img image.Image) error {
 }
 
 func main() {
+	if len(os.Args) != 2 {
+		log.Fatal("you need to pass the name to print in the sticker")
+	}
+
 	img, err := loadImage("red_hat.png")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = saveImage("blue_hat.png", recolorImage(img))
+	recoloredImage := recolorImage(img)
+
+	banner, err := NewBanner(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	drawBanner(
+		banner,
+		recoloredImage,
+		bannerScale,
+		(recoloredImage.Rect.Max.X-banner.Width*bannerScale)/2,
+		recoloredImage.Rect.Max.Y-banner.Height*bannerScale-20,
+	)
+
+	err = saveImage("blue_hat.png", recoloredImage)
 	if err != nil {
 		log.Fatal(err)
 	}
