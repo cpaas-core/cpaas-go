@@ -7,7 +7,6 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
-	"log"
 	"os"
 	"strings"
 )
@@ -15,7 +14,7 @@ import (
 var asciiMapFilename = "ascii_maps"
 var originalImageFilename = "red_hat.png"
 var destinationImageFilename = "blue_hat.png"
-var name = "hector"
+var name = "hemartin"
 
 const drawMarginBottom = 15
 const maxChars = 11
@@ -126,7 +125,7 @@ func createAsciiMap(asciiMapFilename string) (map[string]string, error) {
 	}
 
 	if err := asciiScanner.Err(); err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	return asciiMap, nil
