@@ -13,10 +13,15 @@ type Node struct {
 }
 
 type List struct {
-	Nodes []*Node
+	Head *Node
+	Tail *Node
 }
 
 func NewList(args ...interface{}) *List {
+	if len(args) == 0 {
+		return &List{}
+	}
+
 	var nodes []*Node
 	for _, value := range args {
 		nodes = append(nodes, &Node{
@@ -39,7 +44,7 @@ func NewList(args ...interface{}) *List {
 		}
 	}
 
-	return &List{Nodes: nodes}
+	return &List{Head: nodes[0], Tail: nodes[len(nodes)-1]}
 }
 
 func (n *Node) Next() *Node {
@@ -51,79 +56,107 @@ func (n *Node) Prev() *Node {
 }
 
 func (l *List) PushFront(v interface{}) {
-	l.Reverse()
-	l.PushBack(v)
-	l.Reverse()
+	node := &Node{Val: v}
+	first := l.First()
+	last := l.Last()
+
+	if last == nil {
+		l.Tail = node
+	} else {
+		node.next = first
+		first.prev = node
+	}
+
+	l.Head = node
 }
 
 func (l *List) PushBack(v interface{}) {
 	node := &Node{Val: v}
+	first := l.First()
 	last := l.Last()
-	if last != nil {
-		last.next = node
+
+	if first == nil {
+		l.Head = node
+	} else {
 		node.prev = last
+		last.next = node
 	}
 
-	l.Nodes = append(l.Nodes, node)
+	l.Tail = node
 }
 
 func (l *List) PopFront() (interface{}, error) {
-	if len(l.Nodes) == 0 {
+	if l.Head == nil {
 		return nil, ErrEmptyList
 	}
 
-	var nodes []*Node
 	first := l.First()
-	for idx, node := range l.Nodes {
-		if idx == 0 {
-			continue
-		}
-		if idx == 1 {
-			node.prev = nil
-		}
-
-		nodes = append(nodes, node)
+	if first.next != nil {
+		second := first.next
+		second.prev = nil
+		l.Head = second
+	} else {
+		l.Head, l.Tail = nil, nil
 	}
-	l.Nodes = nodes
 
 	return first.Val, nil
 }
 
 func (l *List) PopBack() (interface{}, error) {
-	l.Reverse()
-	ret, err := l.PopFront()
-	l.Reverse()
-	return ret, err
+	if l.Tail == nil {
+		return nil, ErrEmptyList
+	}
+
+	last := l.Last()
+	if last.prev != nil {
+		beforeLast := last.prev
+		beforeLast.next = nil
+		l.Tail = beforeLast
+	} else {
+		l.Head, l.Tail = nil, nil
+	}
+	return last.Val, nil
 }
 
+// Not working
 func (l *List) Reverse() {
-	for _, node := range l.Nodes {
-		node.prev, node.next = node.next, node.prev
+	// Empty list
+	if l.First() == nil || l.Last() == nil {
+		return
 	}
 
-	for idx := len(l.Nodes)/2 - 1; idx >= 0; idx-- {
-		opposite := len(l.Nodes) - 1 - idx
-		l.Nodes[idx], l.Nodes[opposite] = l.Nodes[opposite], l.Nodes[idx]
+	// Single item list
+	if l.First() == l.Last() {
+		return
 	}
+
+	node := l.First()
+	for node.next != nil {
+		node.prev, node.next = node.next, node.prev
+		node = node.prev
+	}
+
+	l.Head, l.Tail = l.Tail, l.Head
 }
 
 func (l *List) First() *Node {
-	if len(l.Nodes) > 0 {
-		return l.Nodes[0]
-	}
-	return nil
+	return l.Head
 }
 
 func (l *List) Last() *Node {
-	if len(l.Nodes) > 0 {
-		if len(l.Nodes) == 1 {
-			return l.Nodes[0]
-		}
-		return l.Nodes[len(l.Nodes)-1]
-	}
-	return nil
+	return l.Tail
 }
 
 func (l *List) Len() int {
-	return len(l.Nodes)
+	count := 0
+	node := l.First()
+	if node != nil {
+		count++
+		for node.next != nil {
+			count++
+			node = node.next
+		}
+	}
+
+	return count
 }
