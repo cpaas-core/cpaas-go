@@ -153,27 +153,11 @@ func (l *List) PopBack() (interface{}, error) {
 }
 
 func (l *List) Reverse() {
-	if !l.isEmpty() {
-
-		node := l.Last()
-
-		if node != nil {
-			n := node
-			var lastNode *Node
-			for n.Prev() != nil {
-				v := n.Prev()
-				n.prev = lastNode
-				n.next = v
-				lastNode = n
-				n = v
-			}
-			node.prev = nil
-			l.first = node
-			n.next = nil
-			n.prev = lastNode
-			l.last = n
-		}
+	for n := l.First(); n != nil; n = n.prev {
+		n.next, n.prev = n.prev, n.next
 	}
+	l.first, l.last = l.last, l.first
+
 }
 
 func (l *List) First() *Node {
