@@ -16,43 +16,21 @@ const matchLinesFlag = "-x"
 func Search(pattern string, flags, files []string) []string {
 	result := []string{}
 
-	printLines := false
-	if sliceContains(flags, printLinesFlag) {
-		printLines = true
-	}
-
-	caseInsensitive := false
-	if sliceContains(flags, caseInsensitiveFlag) {
-		caseInsensitive = true
-	}
-
-	printNames := false
-	if sliceContains(flags, printNamesFlag) {
-		printNames = true
-	}
-
-	matchLines := false
-	if sliceContains(flags, matchLinesFlag) {
-		matchLines = true
-	}
-
-	invert := false
-	if sliceContains(flags, invertFlag) {
-		invert = true
-	}
+	printLines := sliceContains(flags, printLinesFlag)
+	caseInsensitive := sliceContains(flags, caseInsensitiveFlag)
+	printNames := sliceContains(flags, printNamesFlag)
+	matchLines := sliceContains(flags, matchLinesFlag)
+	invert := sliceContains(flags, invertFlag)
 
 	regexFlags := ""
 	if caseInsensitive {
-		regexFlags += "i"
-	}
-
-	if regexFlags != "" {
-		regexFlags = fmt.Sprintf("(?%s)", regexFlags)
+		regexFlags += "(?i)"
 	}
 
 	if matchLines {
 		pattern = fmt.Sprintf("^%s$", pattern)
 	}
+
 	regexPattern := fmt.Sprintf(`%s%s`, regexFlags, pattern)
 
 	compiledPattern := regexp.MustCompile(regexPattern)
@@ -76,31 +54,16 @@ func Search(pattern string, flags, files []string) []string {
 					prefix += fmt.Sprintf("%d:", lineIndex+1)
 				}
 
-				matchResult := string(line)
-				if prefix != "" {
-					matchResult = fmt.Sprintf("%s%s", prefix, line)
-				}
-
+				matchResult := fmt.Sprintf("%s%s", prefix, line)
 				if printNames {
-					matchResult = fileName
+					if !sliceContains(result, fileName) {
+						result = append(result, fileName)
+					}
+				} else {
+					result = append(result, matchResult)
 				}
-
-				result = append(result, matchResult)
-			}
-
-		}
-
-	}
-
-	if printNames {
-		finalResult := []string{}
-		for _, name := range result {
-			if !sliceContains(finalResult, name) {
-				finalResult = append(finalResult, name)
 			}
 		}
-
-		return finalResult
 	}
 
 	return result
