@@ -11,25 +11,25 @@ import (
 
 var lineNum int
 
-var rFlags 	string = ""
-var data 	[]string
-var prefixStr 		string = ""
-var regexpPattern 	string = ""
+var rFlags string = ""
+var data []string
+var prefixStr string = ""
+var regexpPattern string = ""
 
-var ( 
-	flagShowLineNum bool
+var (
+	flagShowLineNum      bool
 	flagShowMatchingFile bool
-	flagCaseInsensitive bool
-	flagInvertMatching bool
-	flagFullLineMatch bool
+	flagCaseInsensitive  bool
+	flagInvertMatching   bool
+	flagFullLineMatch    bool
 )
 
 func resetFlags() int {
-	flagShowLineNum      = false
+	flagShowLineNum = false
 	flagShowMatchingFile = false
-	flagCaseInsensitive  = false
-	flagInvertMatching   = false
-	flagFullLineMatch    = false
+	flagCaseInsensitive = false
+	flagInvertMatching = false
+	flagFullLineMatch = false
 	return 0
 }
 
@@ -45,10 +45,10 @@ func buildExcludePattern(pattern string) string {
 func Search(pattern string, flags, files []string) []string {
 
 	/* clean up match data
-       The recommended way `data = nil` breaks the test, although found
-	   this should be recommended for garbage collecting  */
-    rFlags = ""
-    data   = data[:0]
+	       The recommended way `data = nil` breaks the test, although found
+		   this should be recommended for garbage collecting  */
+	rFlags = ""
+	data = data[:0]
 
 	// reset all flags
 	resetFlags()
@@ -63,10 +63,10 @@ func Search(pattern string, flags, files []string) []string {
 			flagShowLineNum = true
 		case "l":
 			flagShowMatchingFile = true
-	 	// case insensitive
+			// case insensitive
 		case "i":
-			flagCaseInsensitive  = true 
-	    // Invert Match
+			flagCaseInsensitive = true
+			// Invert Match
 		case "v":
 			flagInvertMatching = true
 		// Full Line Match
@@ -78,8 +78,8 @@ func Search(pattern string, flags, files []string) []string {
 	if flagCaseInsensitive {
 		rFlags = fmt.Sprintf("i%s", rFlags)
 	}
-	if (flagInvertMatching && flagFullLineMatch) {
-	    rFlags = fmt.Sprintf("m%s", rFlags)
+	if flagInvertMatching && flagFullLineMatch {
+		rFlags = fmt.Sprintf("m%s", rFlags)
 		pattern = fmt.Sprintf("(?%s).*[^%s].* ", rFlags, pattern)
 	} else if flagFullLineMatch {
 		rFlags = fmt.Sprintf("m%s", rFlags)
@@ -110,12 +110,12 @@ func Search(pattern string, flags, files []string) []string {
 				break
 			}
 			/* ugly debugs
-			fmt.Println(pattern)
-			fmt.Print(line)
-	     	fmt.Println(re.Match([]byte(line))) */
+					fmt.Println(pattern)
+					fmt.Print(line)
+			     	fmt.Println(re.Match([]byte(line))) */
 
 			// if re.MatchString(line) {
-	     	if re.Match([]byte(line)) {
+			if re.Match([]byte(line)) {
 
 				/* more ugly debugs
 				fmt.Print("Matched line: ")
@@ -140,14 +140,14 @@ func Search(pattern string, flags, files []string) []string {
 							}
 						}
 						line = ""
-					} 
+					}
 				}
-				if (flagShowLineNum == true && !flagShowMatchingFile) {
+				if flagShowLineNum == true && !flagShowMatchingFile {
 					prefixStr = fmt.Sprintf("%s%d:", prefixStr, lineNum)
 				}
 				data = append(data, fmt.Sprintf("%s%s",
-								    prefixStr,
-                                    strings.TrimSuffix(line, "\n")))
+					prefixStr,
+					strings.TrimSuffix(line, "\n")))
 			}
 			lineNum++
 		}
