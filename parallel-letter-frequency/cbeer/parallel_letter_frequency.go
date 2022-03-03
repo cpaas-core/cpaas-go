@@ -18,7 +18,8 @@ func Frequency(s string) FreqMap {
 func ConcurrentFrequency(l []string) FreqMap {
 	fullFrequencyMap := FreqMap{}
 
-	channel := make(chan FreqMap)
+	// Concurrent solution
+	channel := make(chan FreqMap, len(l))
 	for _, individualString := range l {
 		go func(s string) {
 			channel <- Frequency(s)
@@ -32,13 +33,14 @@ func ConcurrentFrequency(l []string) FreqMap {
 		}
 	}
 
-	// Sequential Solution using Frequency
-	//for _, individualString := range l {
-	//	eachMap := Frequency(individualString)
-	//	for r, _ := range eachMap {
-	//		fullFrequencyMap[r] += eachMap[r]
-	//	}
-	//}
-
+	// Sequential solution using Frequency
+	/*
+	for _, individualString := range l {
+		eachMap := Frequency(individualString)
+		for r, _ := range eachMap {
+			fullFrequencyMap[r] += eachMap[r]
+		}
+	}
+  */
 	return fullFrequencyMap
 }
