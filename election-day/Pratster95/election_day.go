@@ -5,9 +5,7 @@ import "fmt"
 // NewVoteCounter returns a new vote counter with
 // a given number of inital votes.
 func NewVoteCounter(initialVotes int) *int {
-	var counter *int
-	counter = &initialVotes
-	return counter
+	return &initialVotes
 }
 
 // VoteCount extracts the number of votes from a counter.
