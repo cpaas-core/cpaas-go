@@ -17,20 +17,24 @@ func Open(amount int64) *Account {
 }
 
 func (a *Account) Balance() (int64, bool) {
-	a.mutex.Lock()
-	defer a.mutex.Unlock()
 	if !a.opened {
 		return 0, false
 	}
+
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
+
 	return a.amount, a.opened
 }
 
 func (a *Account) Deposit(amount int64) (int64, bool) {
-	a.mutex.Lock()
-	defer a.mutex.Unlock()
 	if !a.opened {
 		return 0, false
 	}
+
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
+
 	if a.amount+amount < 0 {
 		return 0, false
 	}
@@ -41,9 +45,11 @@ func (a *Account) Deposit(amount int64) (int64, bool) {
 func (a *Account) Close() (int64, bool) {
 	a.mutex.Lock()
 	defer a.mutex.Unlock()
+
 	if !a.opened {
 		return 0, false
 	}
+
 	a.opened = false
 	return a.amount, !a.opened
 }
