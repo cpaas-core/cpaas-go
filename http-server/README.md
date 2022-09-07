@@ -10,8 +10,4 @@ exercises will be made.
 As of today:
 
 1. HTTP Vanilla single file
-2. Split into multiple files
-3. Accept JSON
-4. Add tests
-5. Middleware for logging
-6. Porting to a third party library
+2. Middleware
