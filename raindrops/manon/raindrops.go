@@ -2,26 +2,24 @@ package raindrops
 
 import "strconv"
 
-var Drops = map[int]string{
-	3: "Pling",
-	5: "Plang",
-	7: "Plong",
+var drops = []struct {
+	factor int
+	sound  string
+}{
+	{3, "Pling"},
+	{5, "Plang"},
+	{7, "Plong"},
 }
 
 func Convert(number int) string {
 	var response string
-	var potentialFactor = 1
-	for dropCounter := 1; dropCounter <= len(Drops); dropCounter += 0 {
-		if sound, exists := Drops[potentialFactor]; exists == true {
-			if number%potentialFactor == 0 {
-				response += sound
-			}
-			dropCounter++
+	for _, drop := range drops {
+		if number%drop.factor == 0 {
+			response += drop.sound
 		}
-		potentialFactor++
 	}
 	if response == "" {
-		response = strconv.Itoa(number)
+		return strconv.Itoa(number)
 	}
 	return response
 }
